@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rock Paper Scissors Game</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f4f8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+  }
+  h1 {
+    margin-bottom: 20px;
+  }
+  .choices {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  .choice-btn {
+    background: #fff;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    padding: 20px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    user-select: none;
+  }
+  .choice-btn:hover {
+    background: #007bff;
+    color: white;
+  }
+  .result {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  .scoreboard {
+    font-size: 18px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Rock Paper Scissors</h1>
+
+<div class="choices">
+  <button class="choice-btn" data-choice="rock">🪨 Rock</button>
+  <button class="choice-btn" data-choice="paper">📄 Paper</button>
+  <button class="choice-btn" data-choice="scissors">✂️ Scissors</button>
+</div>
+
+<div class="result"></div>
+<div class="scoreboard">You: 0 | Computer: 0</div>
+
+<script>
+  const buttons = document.querySelectorAll('.choice-btn');
+  const resultDiv = document.querySelector('.result');
+  const scoreboardDiv = document.querySelector('.scoreboard');
+
+  let userScore = 0;
+  let computerScore = 0;
+
+  function getComputerChoice() {
+    const choices = ['rock', 'paper', 'scissors'];
+    const randomIndex = Math.floor(Math.random() * choices.length);
+    return choices[randomIndex];
+  }
+
+  function determineWinner(userChoice, computerChoice) {
+    if (userChoice === computerChoice) return "It's a tie!";
+    if (
+      (userChoice === 'rock' && computerChoice === 'scissors') ||
+      (userChoice === 'paper' && computerChoice === 'rock') ||
+      (userChoice === 'scissors' && computerChoice === 'paper')
+    ) {
+      userScore++;
+      return "You win!";
+    } else {
+      computerScore++;
+      return "You lose!";
+    }
+  }
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const userChoice = button.getAttribute('data-choice');
+      const computerChoice = getComputerChoice();
+
+      const outcome = determineWinner(userChoice, computerChoice);
+
+      resultDiv.textContent = `You chose ${userChoice} - Computer chose ${computerChoice}. ${outcome}`;
+      scoreboardDiv.textContent = `You: ${userScore} | Computer: ${computerScore}`;
+    });
+  });
+</script>
+
+</body>
+</html>
